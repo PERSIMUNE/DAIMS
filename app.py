@@ -39,7 +39,7 @@ def man_check(n, txt):
     with col1:
         check = st.radio(label = "Mark if true", options = ["Pass", "Fail", "Unknown"], index = 2, key = "radio"+str(n))
     with col2:
-        comment = st.text_area(label = "Comment (if not done)):", key = "text"+str(n))
+        comment = st.text_area(label = "Comment (if not done):", key = "text"+str(n))
 
     #add row to output sheet
     sheet_row[0] = check
@@ -49,10 +49,21 @@ def man_check(n, txt):
 
 
 #start of app interface
-st.title("Datasheet for Medical Datasets Checklist") 
+
+col1, mid, col2 = st.columns([2,1,10])
+with col1:
+    st.image('DAIMSlogo.svg', width=150)
+with col2:
+    st.title("DAIMS - Datasheets for AI and Medical Datasets") 
+
+url_paper = "https://chip.dk/"
+st.write("For instructions of use please view [Datasheets for AI and medical datasets (DAIMS)](%s)" % url_paper) #change when published!
+st.write("To reference this tool, please cite: [citation]")
 
 #upload widgets for data and dd
-csv_file = st.file_uploader("Choose a .csv or .xlsx datafile")
+st.subheader("Upload your Data file:")
+csv_file = st.file_uploader("Choose a .csv or .xlsx data file")
+st.subheader("Upload your Data Dictionary file:")
 dict_file = st.file_uploader("Choose a .csv or .xlsx data dictionary file")
 
 #import data file
@@ -494,14 +505,14 @@ if flag_data == 1 and flag_dd == 1:
 
 
     #check if range column is in dd
-    if "range" in dd.columns:
+    if "categories or range" in dd.columns:
         flag_range = 1
 
 
     if flag_range == 1:
         for i in cat_cols:
             #get potential catogirical values from dd
-            cat_values = dd[dd["variable name"] == i].range.iloc[0].split(";")
+            cat_values = dd[dd["variable name"] == i]["Categories or range"].iloc[0].split(";")
             #remove white space
             cat_values = [cat_val.strip() for cat_val in cat_values]
 
@@ -522,7 +533,7 @@ if flag_data == 1 and flag_dd == 1:
     elif flag_range == 0:
             st.write(f"9) {sheet_row[2]}:red[NO]")
             sheet_row[0] = "Fail"
-            error = f"There are no column called \"Range\" in the Data Dictionary"
+            error = f"There are no column called \"Categories or range\" in the Data Dictionary"
             st.write(f":red[{error}]") 
     #categories not listed found - check failed
     else:
@@ -618,7 +629,7 @@ if flag_data == 1 and flag_dd == 1:
     if flag_range == 1:
         for i in data_float.columns:
             if cont_flag == 0:
-                range_values = dd[dd["variable name"] == i].range.iloc[0].split(";")
+                range_values = dd[dd["variable name"] == i]["categories or range"].iloc[0].split(";")
 
                 if len(range_values) != 2:
                     cont_flag = 2
@@ -648,7 +659,7 @@ if flag_data == 1 and flag_dd == 1:
     elif flag_range == 0:
             st.write(f"12) {sheet_row[2]}:red[NO]")
             sheet_row[0] = "Fail"
-            error = f"There are no column called \"Range\" in the Data Dictionary"
+            error = f"There are no column called \"Categories or range\" in the Data Dictionary"
             st.write(f":red[{error}]") 
 
     else:
