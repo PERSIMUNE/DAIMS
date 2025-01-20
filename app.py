@@ -50,11 +50,11 @@ def man_check(n, txt):
 
 #start of app interface
 
-col1, mid, col2 = st.columns([2,1,10])
+col1, mid, col2 = st.columns([5,1,10])
 with col1:
-    st.image('DAIMSlogo.svg', width=300)
+    st.image('DAIMSlogo.svg', width=200)
 with col2:
-    st.title("TEST DAIMS - Datasheets for AI and Medical Datasets") 
+    st.title("DAIMS - Datasheets for AI and Medical Datasets") 
 
 url_paper = "https://chip.dk/"
 st.write("For instructions of use please view [Datasheets for AI and medical datasets (DAIMS)](%s)" % url_paper) #change when published!
