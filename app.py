@@ -241,7 +241,7 @@ if flag_data == 1 and flag_dd == 1:
                 st.write(f":red[{error}]" )
         #(first) ID not present - check failed
         else:
-            st.write(f"2) {sheet_row[2]}:red[NO]")
+            st.write(f"2) {sheet_row[2]} :red[NO]")
             sheet_row[0] = "Fail"
             error = f"The column with Role as Identifier {id_col.iloc[0]} is not in Data."
             st.write(f":red[{error}]")
@@ -611,13 +611,13 @@ if flag_data == 1 and flag_dd == 1:
                 st.write(f":grey[NB: Variable {bad_cont} has no numerical values.]")
 
     elif flag_range == 0:
-            st.write(f"11) {sheet_row[2]}:red[NO]")
+            st.write(f"11) {sheet_row[2]} :red[NO]")
             sheet_row[0] = "Fail"
             error = f"There are no column called \"Categories or range\" in the Data Dictionary"
             st.write(f":red[{error}]") 
 
     else:
-        st.write(f"11) {sheet_row[2]}:red[NO]")
+        st.write(f"11) {sheet_row[2]} :red[NO]")
         sheet_row[0] = "Fail"
         error = "There are values outside of the range defined in the Data Dictionary"
         st.write(f":red[{error}]") 
@@ -657,13 +657,13 @@ if flag_data == 1 and flag_dd == 1:
                 st.write(":grey[NB: No non-ID columns marked as \"categorical\" found]")
     #no range column - check failed
     elif flag_range == 0:
-            st.write(f"12) {sheet_row[2]}:red[NO]")
+            st.write(f"12) {sheet_row[2]} :red[NO]")
             sheet_row[0] = "Fail"
             error = f"There are no column called \"Categories or range\" in the Data Dictionary"
             st.write(f":red[{error}]") 
     #categories not listed found - check failed
     else:
-        st.write(f"12) {sheet_row[2]}:red[NO]")
+        st.write(f"12) {sheet_row[2]} :red[NO]")
         sheet_row[0] = "Fail"
         error = f"There are rare categories in the data not listed in the Data Dictionary. For instance: [{bad_cat_val}] in column: {bad_cat}."
         st.write(f":red[{error}]")       
@@ -696,7 +696,7 @@ if flag_data == 1 and flag_dd == 1:
                 if len(cat_cols) == 0:
                     st.write(":grey[NB: No non-ID columns marked as \"categorical\" found]")
     else:
-            st.write(f"13) {sheet_row[2]}:red[NO]")
+            st.write(f"13) {sheet_row[2]} :red[NO]")
             sheet_row[0] = "Fail"
             error = f"There are rare categories in data. For instance: [{rare_1}] in column: {rare_col}."
             st.write(f":red[{error}]")
@@ -783,7 +783,7 @@ if flag_data == 1 and flag_dd == 1:
             st.write(f":grey[NB: Variable {cont_out} has no numerical values.]")
 
     else:
-        st.write(f"15) {sheet_row[2]}:red[NO]")
+        st.write(f"15) {sheet_row[2]}: red[NO]")
         sheet_row[0] = "Fail"
         error = f"There are outliers in the data. For instance variable: {cont_out} has value: {cont_out_val}."
         st.write(f":red[{error}]")    
