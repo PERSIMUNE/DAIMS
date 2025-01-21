@@ -638,7 +638,7 @@ if flag_data == 1 and flag_dd == 1:
     if flag_range == 1:
         for i in cat_cols:
             #get potential catogirical values from dd
-            cat_values = dd[dd["variable name"] == i]["Categories or range"].iloc[0].split(";")
+            cat_values = dd[dd["variable name"] == i]["categories or range"].iloc[0].split(";")
             #remove white space
             cat_values = [cat_val.strip() for cat_val in cat_values]
 
