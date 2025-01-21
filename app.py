@@ -7,6 +7,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import string
+import io
+
+#for downloading excel sheet
+buffer = io.BytesIO()
 
 #place holders for data and data dictionary(dd) uploads
 data = None
@@ -50,7 +54,7 @@ def man_check(n, txt):
 
 #start of app interface
 
-col1, mid, col2 = st.columns([2,1,10])
+col1, mid, col2 = st.columns([5,1,10])
 with col1:
     st.image('DAIMSlogo.svg', width=150)
 with col2:
@@ -170,8 +174,22 @@ if flag_data == 1 and flag_dd == 1:
     cont_n = cont_n[cont_n.isin(data.columns)]
     conts = data[cont_n]
 
-    #region 1 Wide format: Each row is an instance, and each column is a variable (in addition to patient ID and target/outcome variable)
-    #set up line for output sheet
+    #check if range column is in dd
+    if "categories or range" in dd.columns:
+        flag_range = 1
+    else:
+        flag_range = 0
+
+    #convert variables marked as continous to float
+    data_float = conts.apply(pd.to_numeric, errors ="coerce")
+    data_float_comb = data_float.copy()
+
+    cat_data = data[cat_cols]
+    for i in cat_cols:
+        data_float_comb[i] = pd.factorize(data[i])[0]
+        data_float_comb[i] = data_float_comb[i].replace(-1, np.nan)
+
+    #region 1 Wide format: Each row is an instance, and each column is a variable (in addition to patient ID and target/outcome variable) 
     sheet_row = np.full(4, "", dtype= 'object')
     sheet_row[2] = "Wide format: Each row is an instance, and each column is a variable (in addition to patient ID and target/outcome variable)"
     #check if all data columns is datadict rows
@@ -373,53 +391,9 @@ if flag_data == 1 and flag_dd == 1:
     sheet_out.loc[6] = sheet_row
     #endregion
 
-    #region 7 All missing entries are indicated by the same entry (such as NA for not available)  ### TEXT IS WRONG AND SHOULD BE UPDATED
-    #set up line for output sheet
+    #region 7 (8) (13) No further separator (e.g., “,” for numbers with four digits or longer such as 1,050,099) and no extra characters “()”,”[]”, “<>”, “//”, “||” and ”{}”. The only acceptable separator is the decimal point. 
     sheet_row = np.full(4, "", dtype= 'object')
-    sheet_row[2] = "All missing entries are indicated by the same entry (such as NA for not available)"
-    #NaN present in data - check failed
-    if data.isnull().values.any():
-        st.write(f"7) {sheet_row[2]}: :red[NO]")
-        sheet_row[0] = "Fail"
-        idx, idy = np.where(pd.isnull(data))
-        error = f"There are NaN values in data. For instance column: {data.columns[idy[0]]} row: {data.index[idx[0]]} in data."
-        st.write(f":red[{error}]")
-    #"na" present in data - check failed
-    elif (data == "na" ).any().any():
-        st.write(f"7) {sheet_row[2]}: :red[NO]")
-        sheet_row[0] = "Fail"
-        idx, idy = np.where(data == "na")
-        error = f"There are \"na\" values in data. For instance column: {data.columns[idy[0]]} row: {data.index[idx[0]]} in data."
-        st.write(f":red[{error}]")
-    #"-" present in data - check failed
-    elif (data == "-" ).any().any():
-        st.write(f"7) {sheet_row[2]}: :red[NO]")
-        sheet_row[0] = "Fail"
-        idx, idy = np.where(data == "-")
-        error = f"There are \"-\" values in data. For instance column: {data.columns[idy[0]]} row: {data.index[idx[0]]} in data."
-        st.write(f":red[{error}]")
-    #both empty fields and "missing" present in data - check failed
-    elif (data == "" ).any().any() and (data == "missing").any().any():
-        st.write(f"7) {sheet_row[2]}: :red[NO]")
-        sheet_row[0] = "Fail"
-        idx, idy = np.where(data == "")
-        jdx, jdy = np.where(data == "missing")
-        error = f"There are \"missing\" and empty values in data. For instance column: {data.columns[idy[0]]} row: {data.index[idx[0]]}, and column: {data.columns[jdy[0]]} row: {data.index[jdx[0]]} in data."
-        st.write(f":red[{error}]")
-    #no errors found - check passed 
-    else :
-        st.write(f"7) {sheet_row[2]}: :green[Yes]")
-        error = ""
-        sheet_row[0] = "Pass"
-    #add row to output sheet
-    sheet_row[3] = error
-    sheet_row[1] = "Yes"
-    sheet_out.loc[7] = sheet_row
-    #endregion
-    
-    #region 8 (13) No further separator (e.g., “,” for numbers with four digits or longer such as 1,050,099) and no extra characters “()”,”[]”, “<>”, “//”, “||” and ”{}”. The only acceptable separator is the decimal point. 
-    sheet_row = np.full(4, "", dtype= 'object')
-    sheet_row[2] = "No further separator (e.g., “,” for numbers with four digits or longer such as 1,050,099) and no extra characters “()”,”[]”, “<>”, “//”, “||” and ”\{\}”. The only acceptable separator is the decimal point."
+    sheet_row[2] = "No further separator (e.g., “,” for numbers with four digits or longer such as 1,050,099) and no extra characters “()”,”[]”, “<>”, “//”, “||” and ”\{\}”. The only acceptable separator is the decimal point"
 
     #list of allowed characters 
     allowed_cha = list(map(str, np.arange(10)))+list([".", "-"])
@@ -478,77 +452,67 @@ if flag_data == 1 and flag_dd == 1:
             error = f"There are misplaced \"-\"s in a continuous variable. For instance: {bad_val} In column: {bad_col}."
 
     if flag_cont == 1:
-        st.write(f"8) {sheet_row[2]}: :red[NO]")
+        st.write(f"7) {sheet_row[2]}: :red[NO]")
         st.write(f":red[{error}]")
         sheet_row[0] = "Fail"
     else:
-        st.write(f"8) {sheet_row[2]} :green[Yes]")
+        st.write(f"7) {sheet_row[2]} :green[Yes]")
         sheet_row[0] = "Pass"
         error = ""
         if len(conts.columns) == 0:
                     st.write(":grey[NB: No columns marked as \"continuous\" found]")
             
-
     #add row to output sheet
     sheet_row[1] = "Yes"
     sheet_row[3] = error
+    sheet_out.loc[7] = sheet_row
+    #endregion
+
+    #region 8 (7) All missing entries are indicated by the same entry (such as NA for not available)  ### TEXT IS WRONG AND SHOULD BE UPDATED
+    #set up line for output sheet
+    sheet_row = np.full(4, "", dtype= 'object')
+    sheet_row[2] = "All missing entries are indicated by the same entry (e.g., either \"missing\" or an empty field for not available) "
+    #NaN present in data - check failed
+    if data.isnull().values.any():
+        st.write(f"8) {sheet_row[2]}: :red[NO]")
+        sheet_row[0] = "Fail"
+        idx, idy = np.where(pd.isnull(data))
+        error = f"There are NaN values in data. For instance column: {data.columns[idy[0]]} row: {data.index[idx[0]]} in data."
+        st.write(f":red[{error}]")
+    #"na" present in data - check failed
+    elif (data == "na" ).any().any():
+        st.write(f"8) {sheet_row[2]}: :red[NO]")
+        sheet_row[0] = "Fail"
+        idx, idy = np.where(data == "na")
+        error = f"There are \"na\" values in data. For instance column: {data.columns[idy[0]]} row: {data.index[idx[0]]} in data."
+        st.write(f":red[{error}]")
+    #"-" present in data - check failed
+    elif (data == "-" ).any().any():
+        st.write(f"8) {sheet_row[2]}: :red[NO]")
+        sheet_row[0] = "Fail"
+        idx, idy = np.where(data == "-")
+        error = f"There are \"-\" values in data. For instance column: {data.columns[idy[0]]} row: {data.index[idx[0]]} in data."
+        st.write(f":red[{error}]")
+    #both empty fields and "missing" present in data - check failed
+    elif (data == "" ).any().any() and (data == "missing").any().any():
+        st.write(f"8) {sheet_row[2]}: :red[NO]")
+        sheet_row[0] = "Fail"
+        idx, idy = np.where(data == "")
+        jdx, jdy = np.where(data == "missing")
+        error = f"There are \"missing\" and empty values in data. For instance column: {data.columns[idy[0]]} row: {data.index[idx[0]]}, and column: {data.columns[jdy[0]]} row: {data.index[jdx[0]]} in data."
+        st.write(f":red[{error}]")
+    #no errors found - check passed 
+    else :
+        st.write(f"8) {sheet_row[2]}: :green[Yes]")
+        error = ""
+        sheet_row[0] = "Pass"
+    #add row to output sheet
+    sheet_row[3] = error
+    sheet_row[1] = "Yes"
     sheet_out.loc[8] = sheet_row
     #endregion
 
-    #region 9 (17) All the entries for each variable follow the same format (units for numerical variables and categories for categorical variables) 
-    #set up line for output sheet
-    sheet_row = np.full(4, "", dtype= 'object')
-    sheet_row[2] = "All the entries for each variable follow the same format (units for numerical variables and categories for categorical variables) "
-
-    flag_range = 0
-    cat_flag = 0
-
-
-    #check if range column is in dd
-    if "categories or range" in dd.columns:
-        flag_range = 1
-
-
-    if flag_range == 1:
-        for i in cat_cols:
-            #get potential catogirical values from dd
-            cat_values = dd[dd["variable name"] == i]["Categories or range"].iloc[0].split(";")
-            #remove white space
-            cat_values = [cat_val.strip() for cat_val in cat_values]
-
-            #check all values are in potential values
-            if cat_flag == 0 and not set(data[i].unique()).issubset(cat_values):
-                cat_flag = 1
-                bad_cat = i
-                bad_cat_val = list(set(data[i].unique()) - set(cat_values))[0]
-
-    #no values not listed found - check passed
-    if cat_flag == 0:
-            st.write(f"9) {sheet_row[2]} :green[Yes]")
-            sheet_row[0] = "Pass"
-            error = ""
-            if len(cat_cols) == 0:
-                st.write(":grey[NB: No non-ID columns marked as \"categorical\" found]")
-    #no range column - check failed
-    elif flag_range == 0:
-            st.write(f"9) {sheet_row[2]}:red[NO]")
-            sheet_row[0] = "Fail"
-            error = f"There are no column called \"Categories or range\" in the Data Dictionary"
-            st.write(f":red[{error}]") 
-    #categories not listed found - check failed
-    else:
-        st.write(f"9) {sheet_row[2]}:red[NO]")
-        sheet_row[0] = "Fail"
-        error = f"There are rare categories in the data not listed in the Data Dictionary. For instance: [{bad_cat_val}] in column: {bad_cat}."
-        st.write(f":red[{error}]")       
-
-    #add row to output sheet
-    sheet_row[3] = error
-    sheet_row[1] = "Yes"
-    sheet_out.loc[9] = sheet_row
-    #endregion
-
-    #region 10 (20) No instance has all-missing variables 
+    #region 9 (10) (20) No instance has all-missing variables 
 
     #set up line for output sheet
     sheet_row = np.full(4, "", dtype= 'object')
@@ -557,11 +521,11 @@ if flag_data == 1 and flag_dd == 1:
     all_miss = data.columns[data.isna().all(0)]
 
     if len(all_miss) == 0:
-        st.write(f"10) {sheet_row[2]} :green[Yes]")
+        st.write(f"9) {sheet_row[2]} :green[Yes]")
         sheet_row[0] = "Pass"
         error = ""
     else:
-        st.write(f"10) {sheet_row[2]}: :red[NO]")
+        st.write(f"9) {sheet_row[2]}: :red[NO]")
         error = f"Some columns has all missing values. For instance column: {all_miss[0]}."
         st.write(f":red[{error}]")
         sheet_row[0] = "Fail"
@@ -569,59 +533,49 @@ if flag_data == 1 and flag_dd == 1:
     #add row to output sheet
     sheet_row[1] = "Yes"
     sheet_row[3] = error
-    sheet_out.loc[10] = sheet_row
+    sheet_out.loc[9] = sheet_row
     #endregion
 
-    #region 11 (21) Perfectly collinear variables are removed 
-
+    #region 10 (15) (10) A data dictionary (codebook) is provided that defines all variables, their types (categorical, ordinal, and interval) and units (e.g. kg) 
     #set up line for output sheet
     sheet_row = np.full(4, "", dtype= 'object')
-    sheet_row[2] = "Perfectly collinear variables are removed"
+    sheet_row[2] = "A data dictionary (codebook) is provided that defines all variables, their types (continuous, categorical or date and time) and units (e.g., kg)"
 
-    #convert variables marked as continous to float
-    data_float = conts.apply(pd.to_numeric, errors ="coerce")
-    data_float_comb = data_float.copy()
-
-    cat_data = data[cat_cols]
-    for i in cat_cols:
-        data_float_comb[i] = pd.factorize(data[i])[0]
-        data_float_comb[i] = data_float_comb[i].replace(-1, np.nan)
-
-    #get correlation matrix
-    corr_matrix = data_float_comb.corr()
-
-    #zero values in diagonal
-    np.fill_diagonal(corr_matrix.values, 0)
-
-    #find correlated values
-    perf_corr = corr_matrix[corr_matrix > 0.999]
-
-    perf_corr = perf_corr.dropna(how = 'all', axis = 0)
-    perf_corr = perf_corr.dropna(how = 'all', axis = 1)
-    
-    #check passed 
-    if len(perf_corr) == 0:
-        st.write(f"11) {sheet_row[2]} :green[Yes]")
+    #columns in data not in dd - check failed
+    if len(var_not_in_dd) > 0 :
+        st.write(f"10) {sheet_row[2]}: :red[NO]")
+        error = f"There are columns not described in the Data Dictionary. For instance: {var_not_in_dd[0]}"
+        st.write(f":red[{error}]")
+        sheet_row[0] = "Fail"
+    #variable type not defined for all data columns - check failed  
+    elif "units" not in dd.columns:
+        st.write(f"10) {sheet_row[2]}: :red[NO]")
+        error = "No column named \"units\" in Data Dictionary."
+        st.write(f":red[{error}]")
+        sheet_row[0] = "Fail"
+    #There are missing values in units column - check failed
+    elif dd.units.isna().values.any():
+        example = dd["variable name"][dd.units.isna()].values[0]
+        st.write(f"10) {sheet_row[2]}: :red[NO]")
+        error = f"There are missing values in the \"units\" column in the Data Dictionary. For instance for: {example}."
+        st.write(f":red[{error}]")
+        sheet_row[0] = "Fail"
+    else:
+        st.write(f"10) {sheet_row[2]} :green[Yes]")
         sheet_row[0] = "Pass"
         error = ""
-    #check failed
-    else:
-        st.write(f"11) {sheet_row[2]}: :red[NO]")
-        error = f"Some columns are perfectly collinear. For instance variables: {perf_corr.columns[0]} and {perf_corr.notna().idxmax()[perf_corr.columns[0]]}]"
-        st.write(f":red[{error}")
-        sheet_row[0] = "Fail"
 
     #add row to output sheet
     sheet_row[1] = "Yes"
     sheet_row[3] = error
-    sheet_out.loc[11] = sheet_row
+    sheet_out.loc[10] = sheet_row
     #endregion
-    
-    #region 12 (22) Check consistency between data dictionary and actual data values 
+
+    #region 11 (12) (22) The actual data values for continuous variables are within the range listed in data dictionary (Check consistency between data dictionary and actual data values) 
     
     #set up line for output sheet
     sheet_row = np.full(4, "", dtype= 'object')
-    sheet_row[2] = "Check consistency between data dictionary and actual data values "
+    sheet_row[2] = "The actual data values for continuous variables are within the range listed in data dictionary"
 
     cont_flag = 0
     cont_comment = 0
@@ -648,7 +602,7 @@ if flag_data == 1 and flag_dd == 1:
                     bad_cont = i
 
     if cont_flag == 0:
-            st.write(f"12) {sheet_row[2]} :green[Yes]")
+            st.write(f"11) {sheet_row[2]} :green[Yes]")
             sheet_row[0] = "Pass"
             error = ""
             if len(cont_n) == 0:
@@ -657,28 +611,142 @@ if flag_data == 1 and flag_dd == 1:
                 st.write(f":grey[NB: Variable {bad_cont} has no numerical values.]")
 
     elif flag_range == 0:
-            st.write(f"12) {sheet_row[2]}:red[NO]")
+            st.write(f"11) {sheet_row[2]}:red[NO]")
             sheet_row[0] = "Fail"
             error = f"There are no column called \"Categories or range\" in the Data Dictionary"
             st.write(f":red[{error}]") 
 
     else:
-        st.write(f"12) {sheet_row[2]}:red[NO]")
+        st.write(f"11) {sheet_row[2]}:red[NO]")
         sheet_row[0] = "Fail"
         error = "There are values outside of the range defined in the Data Dictionary"
         st.write(f":red[{error}]") 
 
     sheet_row[1] = "Yes"
     sheet_row[3] = error
-    sheet_out.loc[12] = sheet_row
+    sheet_out.loc[11] = sheet_row
 
     #endregion
 
-    #region 13 (24) Removing irrelevant observations that could skew the results or cause bias (e.g. outliers or extreme values that do not reflect normal conditions) 
+    #region 12 (9) (17) Categorical variables have all their categories listed in the data dictionary  (All the entries for each variable follow the same format (units for numerical variables and categories for categorical variables) 
+    #set up line for output sheet)
+    sheet_row = np.full(4, "", dtype= 'object')
+    sheet_row[2] = "Categorical variables have all their categories listed in the data dictionary"
+   
+    cat_flag = 0
+
+    if flag_range == 1:
+        for i in cat_cols:
+            #get potential catogirical values from dd
+            cat_values = dd[dd["variable name"] == i]["Categories or range"].iloc[0].split(";")
+            #remove white space
+            cat_values = [cat_val.strip() for cat_val in cat_values]
+
+            #check all values are in potential values
+            if cat_flag == 0 and not set(data[i].unique()).issubset(cat_values):
+                cat_flag = 1
+                bad_cat = i
+                bad_cat_val = list(set(data[i].unique()) - set(cat_values))[0]
+
+    #no values not listed found - check passed
+    if cat_flag == 0:
+            st.write(f"12) {sheet_row[2]} :green[Yes]")
+            sheet_row[0] = "Pass"
+            error = ""
+            if len(cat_cols) == 0:
+                st.write(":grey[NB: No non-ID columns marked as \"categorical\" found]")
+    #no range column - check failed
+    elif flag_range == 0:
+            st.write(f"12) {sheet_row[2]}:red[NO]")
+            sheet_row[0] = "Fail"
+            error = f"There are no column called \"Categories or range\" in the Data Dictionary"
+            st.write(f":red[{error}]") 
+    #categories not listed found - check failed
+    else:
+        st.write(f"12) {sheet_row[2]}:red[NO]")
+        sheet_row[0] = "Fail"
+        error = f"There are rare categories in the data not listed in the Data Dictionary. For instance: [{bad_cat_val}] in column: {bad_cat}."
+        st.write(f":red[{error}]")       
+
+    #add row to output sheet
+    sheet_row[3] = error
+    sheet_row[1] = "Yes"
+    sheet_out.loc[12] = sheet_row
+    #endregion
+
+    #region 13 (14) (9) Rare categories in categorical variables are grouped 
+    #set up line for output sheet
+    sheet_row = np.full(4, "", dtype= 'object')
+    sheet_row[2] = "Rare categories in categorical variables are grouped"
+
+    flag_c = 1
+    for i in cat_cols:
+        freq = data[i].value_counts(normalize=True, ascending=True)
+        freq_rare = freq[freq < 0.05]
+        if len(freq_rare > 0):
+            flag_c = 0
+            rare_col = i
+            rare_1 = freq_rare.index[0]
+            #rare_2 = freq_rare.index[1]
+    #No rare categories found - check passed 
+    if flag_c == 1:
+                st.write(f"13) {sheet_row[2]} :green[Yes]")
+                sheet_row[0] = "Pass"
+                error = ""
+                if len(cat_cols) == 0:
+                    st.write(":grey[NB: No non-ID columns marked as \"categorical\" found]")
+    else:
+            st.write(f"13) {sheet_row[2]}:red[NO]")
+            sheet_row[0] = "Fail"
+            error = f"There are rare categories in data. For instance: [{rare_1}] in column: {rare_col}."
+            st.write(f":red[{error}]")
+    
+    sheet_row[3] = error
+    sheet_row[1] = "Yes"
+    sheet_out.loc[13] = sheet_row
+    #endregion
+
+    #region 14 (11) (21) Perfectly collinear variables are removed 
+
+    #set up line for output sheet
+    sheet_row = np.full(4, "", dtype= 'object')
+    sheet_row[2] = "Perfectly collinear variables are removed"
+
+    #get correlation matrix
+    corr_matrix = data_float_comb.corr()
+
+    #zero values in diagonal
+    np.fill_diagonal(corr_matrix.values, 0)
+
+    #find correlated values
+    perf_corr = corr_matrix[corr_matrix > 0.999]
+
+    perf_corr = perf_corr.dropna(how = 'all', axis = 0)
+    perf_corr = perf_corr.dropna(how = 'all', axis = 1)
+    
+    #check passed 
+    if len(perf_corr) == 0:
+        st.write(f"14) {sheet_row[2]} :green[Yes]")
+        sheet_row[0] = "Pass"
+        error = ""
+    #check failed
+    else:
+        st.write(f"14) {sheet_row[2]}: :red[NO]")
+        error = f"Some columns are perfectly collinear. For instance variables: {perf_corr.columns[0]} and {perf_corr.notna().idxmax()[perf_corr.columns[0]]}]"
+        st.write(f":red[{error}")
+        sheet_row[0] = "Fail"
+
+    #add row to output sheet
+    sheet_row[1] = "Yes"
+    sheet_row[3] = error
+    sheet_out.loc[14] = sheet_row
+    #endregion
+
+    #region 15 (13) (24) Irrelevant observations that could skew the results or cause bias (e.g., outliers or extreme values that do not reflect normal conditions) are removed 
     
     #set up line for output sheet
     sheet_row = np.full(4, "", dtype= 'object')
-    sheet_row[2] = "Removing irrelevant observations that could skew the results or cause bias (e.g. outliers or extreme values that do not reflect normal conditions)"
+    sheet_row[2] = "Irrelevant observations that could skew the results or cause bias (e.g., outliers or extreme values that do not reflect normal conditions) are removed"
 
     out_flag = 0
     cont_comment = 0
@@ -706,7 +774,7 @@ if flag_data == 1 and flag_dd == 1:
 
     #no outliers found - check passed                 
     if out_flag == 0:
-        st.write(f"13) {sheet_row[2]} :green[Yes]")
+        st.write(f"15) {sheet_row[2]} :green[Yes]")
         sheet_row[0] = "Pass"
         error = ""
         if len(cont_n) == 0:
@@ -715,79 +783,11 @@ if flag_data == 1 and flag_dd == 1:
             st.write(f":grey[NB: Variable {cont_out} has no numerical values.]")
 
     else:
-        st.write(f"13) {sheet_row[2]}:red[NO]")
+        st.write(f"15) {sheet_row[2]}:red[NO]")
         sheet_row[0] = "Fail"
         error = f"There are outliers in the data. For instance variable: {cont_out} has value: {cont_out_val}."
         st.write(f":red[{error}]")    
               
-    sheet_row[1] = "Yes"
-    sheet_row[3] = error
-    sheet_out.loc[13] = sheet_row
-
-    #endregion
-
-    #region 14 (9) Rare categories in categorical variables are grouped 
-    #set up line for output sheet
-    sheet_row = np.full(4, "", dtype= 'object')
-    sheet_row[2] = "Rare categories in categorical variables are grouped"
-
-    flag_c = 1
-    for i in cat_cols:
-        freq = data[i].value_counts(normalize=True, ascending=True)
-        freq_rare = freq[freq < 0.05]
-        if len(freq_rare > 0):
-            flag_c = 0
-            rare_col = i
-            rare_1 = freq_rare.index[0]
-            #rare_2 = freq_rare.index[1]
-    #No rare categories found - check passed 
-    if flag_c == 1:
-                st.write(f"14) {sheet_row[2]} :green[Yes]")
-                sheet_row[0] = "Pass"
-                error = ""
-                if len(cat_cols) == 0:
-                    st.write(":grey[NB: No non-ID columns marked as \"categorical\" found]")
-    else:
-            st.write(f"14) {sheet_row[2]}:red[NO]")
-            sheet_row[0] = "Fail"
-            error = f"There are rare categories in data. For instance: [{rare_1}] in column: {rare_col}."
-            st.write(f":red[{error}]")
-    
-    sheet_row[3] = error
-    sheet_row[1] = "Yes"
-    sheet_out.loc[14] = sheet_row
-    #endregion
-
-    #region 15 (10) A data dictionary (codebook) is provided that defines all variables, their types (categorical, ordinal, and interval) and units (e.g. kg) 
-    #set up line for output sheet
-    sheet_row = np.full(4, "", dtype= 'object')
-    sheet_row[2] = "A data dictionary (codebook) is provided that defines all variables, their types (categorical, ordinal, and interval) and units (e.g. kg)"
-
-    #columns in data not in dd - check failed
-    if len(var_not_in_dd) > 0 :
-        st.write(f"15) {sheet_row[2]}: :red[NO]")
-        error = f"There are columns not described in the Data Dictionary. For instance: {var_not_in_dd[0]}"
-        st.write(f":red[{error}]")
-        sheet_row[0] = "Fail"
-    #variable type not defined for all data columns - check failed  
-    elif "units" not in dd.columns:
-        st.write(f"15) {sheet_row[2]}: :red[NO]")
-        error = "No column named \"units\" in Data Dictionary."
-        st.write(f":red[{error}]")
-        sheet_row[0] = "Fail"
-    #There are missing values in units column - check failed
-    elif dd.units.isna().values.any():
-        example = dd["variable name"][dd.units.isna()].values[0]
-        st.write(f"15) {sheet_row[2]}: :red[NO]")
-        error = f"There are missing values in the \"units\" column in the Data Dictionary. For instance for: {example}."
-        st.write(f":red[{error}]")
-        sheet_row[0] = "Fail"
-    else:
-        st.write(f"15) {sheet_row[2]} :green[Yes]")
-        sheet_row[0] = "Pass"
-        error = ""
-
-    #add row to output sheet
     sheet_row[1] = "Yes"
     sheet_row[3] = error
     sheet_out.loc[15] = sheet_row
@@ -797,22 +797,22 @@ if flag_data == 1 and flag_dd == 1:
     st.subheader("Manual checks:")
     #16 (15) Date and time are formatted as described in the data dictionary (for example 05-11-2022 12:23 DD-MM-YYYY CET) 
     sheet_out.loc[16] = man_check(16, "Date and time are formatted as described in the data dictionary (for example 05-11-2022 12:23 DD-MM-YYYY CET)")
-    #17 (11) Erroneous data (out of range or meaningless) are removed or corrected
-    sheet_out.loc[17] = man_check(17, "Erroneous data (out of range or meaningless) are removed or corrected")
-    #18 (12) Numerical entries have “.” as decimal separator (i.e. 1.2 not 1,2) 
-    sheet_out.loc[18] = man_check(18, "Numerical entries have “.” as decimal separator (i.e. 1.2 not 1,2)")
-    #19 (14) Non-English entries are translated to English. Non-Latin scripts are transformed to Latin scripts. 
-    sheet_out.loc[19] = man_check(19, "Non-English entries are translated to English. Non-Latin scripts are transformed to Latin scripts.")
-    #20 (16) Variable irrelevant for study are removed  (i.e. non-generalizable variables that could not relate to the outcome, e.g., billing ID or personal contact information) 
-    sheet_out.loc[20] = man_check(20, "Variable irrelevant for study are removed  (i.e. non-generalizable variables that could not relate to the outcome, e.g., billing ID or personal contact information)") 
-    #21 (18) All entries for each variable follow the same standard (e.g. older entries may have different standards or definitions) 
-    sheet_out.loc[21] = man_check(21, "All entries for each variable follow the same standard (e.g. older entries may have different standards or definitions)")
-    #22 (19) The terms used in the dataset follow international standards
-    sheet_out.loc[22] = man_check(22, "The terms used in the dataset follow international standards234")
-    #23 (8) Informative missingness is properly encoded (e.g. “not tested” when it was deemed unnecessary to test) 
-    sheet_out.loc[23] = man_check(23, "Informative missingness is properly encoded (e.g. “not tested” when it was deemed unnecessary to test") 
+    #17 (18) (12) Numerical entries have “.” as decimal separator (i.e. 1.2 not 1,2) 
+    sheet_out.loc[17] = man_check(17, "Numerical entries have “.” as decimal separator (i.e. 1.2 not 1,2)")
+    #18 (19) (14) Non-English entries are translated to English. Non-Latin scripts are transformed to Latin scripts. 
+    sheet_out.loc[18] = man_check(18, "Non-English entries are translated to English. Non-Latin scripts are transformed to Latin scripts")
+    #19 (22) (19) The terms used in the dataset follow international standards
+    sheet_out.loc[19] = man_check(19, "The terms used in the dataset follow international standards")
+    #20 (21) (18) All entries for each variable follow the same standard (e.g. older entries may have different standards or definitions) 
+    sheet_out.loc[20] = man_check(20, "All entries for each variable follow the same standard (e.g. older entries may have different standards or definitions)")
+    #21 (17) (11) Erroneous data (out of range or meaningless) are removed or corrected (e.g., a BMI value of 2000)
+    sheet_out.loc[21] = man_check(21, "Erroneous data are corrected or removed (e.g., a BMI value of 2000)")
+    #22 (23) (8) Informative missingness is properly encoded (e.g. “not tested” when it was deemed unnecessary to test) 
+    sheet_out.loc[22] = man_check(22, "Informative missingness is properly encoded (e.g. “not tested” when it was deemed unnecessary to test") 
+    #23 (20) (16) Variable irrelevant for study are removed  (i.e. non-generalizable variables that could not relate to the outcome, e.g., billing ID or personal contact information) 
+    sheet_out.loc[23] = man_check(23, "Variable irrelevant for study are removed  (i.e. non-generalizable variables that could not relate to the outcome, e.g., billing ID or personal contact information)") 
     #24 (25) sensitive data
-    sheet_out.loc[24] = man_check(24, "sensitive data")
+    sheet_out.loc[24] = man_check(24, "No sensitive data including name, address, or identity number of the participants (patients) are included ")
 
     #endregion
 else:
@@ -832,9 +832,21 @@ else:
 #download check sheet
 st.subheader("Download Checklist (.xlsx)")
 if flag_data == 1 and flag_dd == 1:
-    output_name = "check_list_" + ".".join(csv_file.name.split(".")[:-1]) + ".xlsx"
-    download_button = st.button("Download")
-    if download_button:
-        sheet_out.to_excel(output_name)
+    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+   
+        sheet_out.to_excel(writer)
+        writer.close()
+        output_name = "check_list_" + ".".join(csv_file.name.split(".")[:-1]) + ".xlsx"
+        #download_button = st.button("Download")
+        #if download_button:
+        #    sheet_out.to_excel(output_name)
+        
+        st.download_button(
+            label="Download",
+            data=buffer,
+            file_name=output_name,
+            mime="application/vnd.ms-excel"
+        )
+            
 else:
     st.write("Upload data and data dictionary to begin.")
