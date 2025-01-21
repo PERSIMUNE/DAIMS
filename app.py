@@ -56,7 +56,7 @@ def man_check(n, txt):
 
 col1, mid, col2 = st.columns([5,1,10])
 with col1:
-    st.image('DAIMSlogo.svg', width=150)
+    st.image('DAIMSlogo.svg', width=200)
 with col2:
     st.title("DAIMS - Datasheets for AI and Medical Datasets") 
 
