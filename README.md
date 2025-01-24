@@ -1,6 +1,9 @@
 # DAIMS: Datasheets for AI and Medical Datasets  
 
-![GitHub license](https://img.shields.io/github/license/PERSIMUNE/DAIMS)  
+<p align="center">
+  <img src="https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMSlogo.svg" alt="DAIMS Logo" width="300">
+</p>  
+
 ![GitHub last commit](https://img.shields.io/github/last-commit/PERSIMUNE/DAIMS)  
 ![GitHub issues](https://img.shields.io/github/issues/PERSIMUNE/DAIMS)  
 ![GitHub stars](https://img.shields.io/github/stars/PERSIMUNE/DAIMS?style=social)  
