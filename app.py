@@ -60,7 +60,7 @@ with col1:
 with col2:
     st.title("DAIMS - Datasheets for AI and Medical Datasets") 
 
-url_paper = "https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMS_DatasetName_DDMMYYYY.md
+url_paper = "https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMS_DatasetName_DDMMYYYY.md"
 st.write("For instructions of use please view [Datasheets for AI and medical datasets (DAIMS)](%s)" % url_paper) #change when published!
 st.write("To reference this tool, please cite: [citation]")
 
