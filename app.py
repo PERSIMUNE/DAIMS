@@ -63,17 +63,6 @@ with col2:
 url_paper = "https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMS_DatasetName_DDMMYYYY.md"
 st.write("For instructions of use please view [Datasheets for AI and medical datasets (DAIMS)](%s)" % url_paper) #change when published!
 
-citation = "@article{marandi2025daims,\n" \
-+ "\t title={Datasheets for AI and medical datasets (DAIMS): a data validation and documentation framework before machine learning analysis in medical research}, \n" \
-+ "\t author={Ramtin Zargari Marandi and Anne Svane Frahm and Maja Milojevic}, \n" \
-+ "\t journal={arXiv preprint arXiv:2501.14094}0,\n" \
-+ "\t year={2025}, \n" \
-+ "\t url={https://arxiv.org/abs/2501.14094} \n" \
-+ "}\n"
-
-st.write("To reference this tool, please cite:")
-st.text(citation)
-
 #upload widgets for data and dd
 st.subheader("Upload your Data file:")
 csv_file = st.file_uploader("Choose a .csv or .xlsx data file")
@@ -860,3 +849,14 @@ if flag_data == 1 and flag_dd == 1:
             
 else:
     st.write("Upload data and data dictionary to begin.")
+
+citation = "@article{marandi2025daims,\n" \
++ "\t title={Datasheets for AI and medical datasets (DAIMS): a data validation and documentation framework before machine learning analysis in medical research}, \n" \
++ "\t author={Ramtin Zargari Marandi and Anne Svane Frahm and Maja Milojevic}, \n" \
++ "\t journal={arXiv preprint arXiv:2501.14094},\n" \
++ "\t year={2025}, \n" \
++ "\t url={https://arxiv.org/abs/2501.14094} \n" \
++ "}\n"
+
+st.write("To reference this tool, please cite:")
+st.text(citation)
