@@ -71,7 +71,7 @@ citation = "To reference this tool, please cite: @article{marandi2025daims,\n" \
 + "url={https://arxiv.org/abs/2501.14094} \n" \
 + "}\n"
 
-st.write(citation)
+st.text(citation)
 
 #upload widgets for data and dd
 st.subheader("Upload your Data file:")
