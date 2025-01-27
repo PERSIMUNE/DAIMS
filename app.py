@@ -848,7 +848,7 @@ if flag_data == 1 and flag_dd == 1:
         )
             
 else:
-    st.write("Upload data and data dictionary to begin.")
+    st.subheader("Upload data and data dictionary to begin.")
 
 citation = "@article{marandi2025daims,\n" \
 + "\t title={Datasheets for AI and medical datasets (DAIMS): a data validation and documentation framework before machine learning analysis in medical research}, \n" \
