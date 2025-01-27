@@ -59,11 +59,26 @@ To bridge this gap, we introduce **DAIMS**: Datasheets for AI and Medical Datase
 5. **Use the Flowchart**  
    Map your research questions to suggested ML methods for clearer analytical direction.  
 
+## Citation  
+
+If you use DAIMS in your research, please cite our work:  
+
+```
+@article{marandi2025daims,
+  title={Datasheets for AI and medical datasets (DAIMS): a data validation and documentation framework before machine learning analysis in medical research},
+  author={Ramtin Zargari Marandi and Anne Svane Frahm and Maja Milojevic},
+  journal={arXiv preprint arXiv:2501.14094},
+  year={2025},
+  url={https://arxiv.org/abs/2501.14094}
+}
+```
+
+You can find the preprint of our work on [arXiv](https://arxiv.org/abs/2501.14094).  
+
 ## Contributing  
 
 We welcome contributions to improve DAIMS! Feel free to open issues, submit pull requests, or provide feedback on the GitHub repository.  
 
 ## License  
 
-This project is licensed under the [MIT License](LICENSE).  
-
+This project is licensed under the [MIT License](LICENSE).
