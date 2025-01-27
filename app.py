@@ -63,7 +63,7 @@ with col2:
 url_git = "https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMS_DatasetName_DDMMYYYY.md"
 st.write("For instructions of use please view [Datasheets for AI and medical datasets (DAIMS)](%s)" % url_git) 
 
-url_paper = https://arxiv.org/abs/2501.14094
+url_paper = "https://arxiv.org/abs/2501.14094"
 st.write("[Read here on how to format your data dictionary and apply the checklist](%s)" % url_paper) 
 
 #upload widgets for data and dd
