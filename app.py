@@ -63,8 +63,7 @@ with col2:
 url_paper = "https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMS_DatasetName_DDMMYYYY.md"
 st.write("For instructions of use please view [Datasheets for AI and medical datasets (DAIMS)](%s)" % url_paper) #change when published!
 
-citation = "To reference this tool, please cite:\n"\
-+ "@article{marandi2025daims,\n" \
+citation = "@article{marandi2025daims,\n" \
 + "\t title={Datasheets for AI and medical datasets (DAIMS): a data validation and documentation framework before machine learning analysis in medical research}, \n" \
 + "\t author={Ramtin Zargari Marandi and Anne Svane Frahm and Maja Milojevic}, \n" \
 + "\t journal={arXiv preprint arXiv:2501.14094}0,\n" \
@@ -72,6 +71,7 @@ citation = "To reference this tool, please cite:\n"\
 + "\t url={https://arxiv.org/abs/2501.14094} \n" \
 + "}\n"
 
+st.write("To reference this tool, please cite:")
 st.text(citation)
 
 #upload widgets for data and dd
