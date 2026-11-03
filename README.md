@@ -59,6 +59,24 @@ To bridge this gap, we introduce **DAIMS**: Datasheets for AI and Medical Datase
 5. **Use the Flowchart**  
    Map your research questions to suggested ML methods for clearer analytical direction.  
 
+## Research using and citing DAIMS
+
+### Documented framework application
+
+| Study | How DAIMS was applied |
+| --- | --- |
+| [Testicular cancer relapse prediction — Andrology](https://doi.org/10.1111/andr.70195) | The methods describe data curation and preprocessing aligned with the DAIMS data standardization checklist. This documents framework use; it does not establish that the DAIMS app was run. |
+
+The study includes a DAIMS developer as a coauthor; it is not presented as independent adoption.
+
+### Selected citation
+
+[The glioblastoma systematic review in Discover Oncology](https://doi.org/10.1007/s12672-025-03303-7) cites the DAIMS framework. A citation does not by itself establish use of the checklist or software.
+
+Browse [papers citing DAIMS on Google Scholar](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en) for further references. This is a curated selection, not a complete citation list. Last checked: 3 November 2026.
+
+Used DAIMS in a study or dataset? [Suggest an addition](https://github.com/PERSIMUNE/DAIMS/issues/new) with a publication, dataset, or code link and a description of which DAIMS components were used.
+
 ## Citation  
 
 If you use DAIMS in your research, please cite our work:  
