@@ -61,12 +61,12 @@ To bridge this gap, we introduce **DAIMS**: Datasheets for AI and Medical Datase
 
 ## DAIMS in research
 
+**[Cited by 11 papers on Google Scholar](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en)** · As of 3 November 2026.
+
 | Publication | Connection to DAIMS |
 | --- | --- |
 | [Testicular cancer relapse prediction — Andrology](https://doi.org/10.1111/andr.70195) | Applied the DAIMS checklist to guide data curation and preprocessing. |
 | [Glioblastoma systematic review — Discover Oncology](https://doi.org/10.1007/s12672-025-03303-7) | Cites the DAIMS framework. |
-
-[More papers citing DAIMS](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en)
 
 Used DAIMS in your research? [Share your work](https://github.com/PERSIMUNE/DAIMS/issues/new) to be featured here.
 
