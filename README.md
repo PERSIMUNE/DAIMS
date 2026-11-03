@@ -61,12 +61,25 @@ To bridge this gap, we introduce **DAIMS**: Datasheets for AI and Medical Datase
 
 ## DAIMS in research
 
-**[Cited by 11 papers on Google Scholar](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en)** · As of 3 November 2026.
+**[Cited by 11 works on Google Scholar](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en)** · As of 3 November 2026.
 
-| Publication | Connection to DAIMS |
+DAIMS is cited across medical research, dataset documentation, pharmaceutical data quality, scientific software, and responsible AI. All 11 citing works are listed below, grouped by research area.
+
+| Research area | Citing publication |
 | --- | --- |
-| [Testicular cancer relapse prediction — Andrology](https://doi.org/10.1111/andr.70195) | Applied the DAIMS checklist to guide data curation and preprocessing. |
-| [Glioblastoma systematic review — Discover Oncology](https://doi.org/10.1007/s12672-025-03303-7) | Cites the DAIMS framework. |
+| Cancer research | [Machine learning and deep learning in glioblastoma: systematic review and meta-analysis](https://doi.org/10.1007/s12672-025-03303-7) |
+| Cancer research | [Testicular cancer relapse prediction](https://doi.org/10.1111/andr.70195) |
+| Gynecologic diagnostics | [Optical coherence tomography and AI in gynecologic diagnostics](https://www.authorea.com/doi/full/10.22541/au.176790712.29291970) |
+| Clinical data preparation | [From medical records to AI-ready datasets: a practical guide](https://www.mdpi.com/2077-0383/15/16/6297) |
+| Healthcare AI | [Responsible foundation models for healthcare](https://doi.org/10.1201/9781003737810-7) |
+| Pharmaceutical data quality | [Evaluating data fitness for AI: the PAIR framework](https://sarcouncil.com/2025/07/evaluating-data-fitness-for-ai-in-pharmaceutical-applications-the-pair-framework) |
+| Dataset documentation | [From reflection to repair: a scoping review of dataset documentation tools](https://doi.org/10.1145/3772318.3791344) |
+| Scientific software and physics | [Scientific software development in the AI era: reproducibility, MLOps, and soft matter physics](https://doi.org/10.3389/fphy.2025.1711356) |
+| Responsible AI and risk management | [Open problems in frontier AI risk management](https://arxiv.org/abs/2604.25982) |
+| Responsible AI and risk management | [Engineering trustworthy AI: the VERITAS framework](https://ieeexplore.ieee.org/abstract/document/11662190/) |
+| Document processing and automation | [Automated data extraction from documents using AI](https://run.unl.pt/server/api/core/bitstreams/d44147b1-0557-4deb-bba3-065cee392bed/content) |
+
+The [testicular cancer study](https://doi.org/10.1111/andr.70195) applied the DAIMS checklist to guide data curation and preprocessing.
 
 Used DAIMS in your research? [Share your work](https://github.com/PERSIMUNE/DAIMS/issues/new) to be featured here.
 
