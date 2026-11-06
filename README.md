@@ -1,7 +1,5 @@
 # DAIMS: Datasheets for AI and Medical Datasets  
 
-[![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-DAIMS-ffd21e)](https://huggingface.co/spaces/ramtinzm/DAIMS)
-
 <p align="center">
   <img src="https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMSlogo.svg" alt="DAIMS Logo" width="300">
 </p>  
@@ -10,6 +8,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/PERSIMUNE/DAIMS)  
 ![GitHub stars](https://img.shields.io/github/stars/PERSIMUNE/DAIMS?style=social)  
 ![Streamlit App](https://img.shields.io/badge/Streamlit-App-brightgreen)  
+[![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-DAIMS-ffd21e)](https://huggingface.co/spaces/ramtinzm/DAIMS)
 
 Despite progress in data engineering, inconsistencies in data validation and documentation procedures continue to cause confusion and technical challenges in research involving machine learning (ML). While frameworks like **Datasheets for Datasets** have made strides in addressing these challenges, there is room for improvement to better prepare datasets for ML pipelines.  
 
