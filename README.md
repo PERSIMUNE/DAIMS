@@ -1,5 +1,7 @@
 # DAIMS: Datasheets for AI and Medical Datasets  
 
+[![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-DAIMS-ffd21e)](https://huggingface.co/spaces/ramtinzm/DAIMS)
+
 <p align="center">
   <img src="https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMSlogo.svg" alt="DAIMS Logo" width="300">
 </p>  
