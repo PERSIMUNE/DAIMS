@@ -4,16 +4,11 @@
   <img src="https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMSlogo.svg" alt="DAIMS Logo" width="300">
 </p>  
 
-![GitHub last commit](https://img.shields.io/github/last-commit/PERSIMUNE/DAIMS)  
-![GitHub issues](https://img.shields.io/github/issues/PERSIMUNE/DAIMS)  
-![GitHub stars](https://img.shields.io/github/stars/PERSIMUNE/DAIMS?style=social)  
-[![Google Scholar citations: 11](https://img.shields.io/badge/Google%20Scholar%20citations-11-3986bc)](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en)
-![Streamlit App](https://img.shields.io/badge/Streamlit-App-brightgreen)  
-[![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-DAIMS-ffd21e)](https://huggingface.co/spaces/ramtinzm/DAIMS)
+![GitHub last commit](https://img.shields.io/github/last-commit/PERSIMUNE/DAIMS) ![GitHub issues](https://img.shields.io/github/issues/PERSIMUNE/DAIMS) ![GitHub stars](https://img.shields.io/github/stars/PERSIMUNE/DAIMS?style=social) [![Google Scholar citations: 11](https://img.shields.io/badge/Google%20Scholar%20citations-11-3986bc)](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en) [![Streamlit App](https://img.shields.io/badge/Streamlit-App-brightgreen)](https://daims-app.streamlit.app/) [![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-DAIMS-ffd21e)](https://huggingface.co/spaces/ramtinzm/DAIMS)
 
-Despite progress in data engineering, inconsistencies in data validation and documentation procedures continue to cause confusion and technical challenges in research involving machine learning (ML). While frameworks like **Datasheets for Datasets** have made strides in addressing these challenges, there is room for improvement to better prepare datasets for ML pipelines.  
+**DAIMS (Datasheets for AI and Medical Datasets)** helps researchers check and document datasets before machine learning analysis. It combines a 24-point checklist, automated data checks, a dataset documentation form, a data dictionary template, and a flowchart for choosing analysis methods.
 
-To bridge this gap, we introduce **DAIMS**: Datasheets for AI and Medical Datasets. DAIMS extends the foundational framework with additional tools and guidance tailored specifically for medical datasets and AI applications.  
+Use the [online app](https://daims-app.streamlit.app/) to run the automated checks, and the templates in this repository to document your dataset. DAIMS builds on the *Datasheets for Datasets* framework with guidance tailored to medical data and AI research.
 
 ## Key Features  
 
