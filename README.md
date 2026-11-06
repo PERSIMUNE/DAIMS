@@ -7,6 +7,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/PERSIMUNE/DAIMS)  
 ![GitHub issues](https://img.shields.io/github/issues/PERSIMUNE/DAIMS)  
 ![GitHub stars](https://img.shields.io/github/stars/PERSIMUNE/DAIMS?style=social)  
+[![Google Scholar citations: 11](https://img.shields.io/badge/Google%20Scholar%20citations-11-3986bc)](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en)  
 ![Streamlit App](https://img.shields.io/badge/Streamlit-App-brightgreen)  
 [![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-DAIMS-ffd21e)](https://huggingface.co/spaces/ramtinzm/DAIMS)
 
@@ -19,16 +20,16 @@ To bridge this gap, we introduce **DAIMS**: Datasheets for AI and Medical Datase
 1. **Comprehensive Checklist**  
    A 24-point checklist that covers common data standardization requirements. A subset of these checks is automated by the DAIMS software tool to validate dataset readiness.  
 
-2. **Data Documentation Form**  
+1. **Data Documentation Form**  
    An extended documentation form designed to capture essential metadata, pose relevant research questions, and ensure datasets are well-prepared for ML analysis.  
 
-3. **Data Dictionary Table**  
+2. **Data Dictionary Table**  
    A tabular format to document variable descriptions, data types, units, and any relevant details about the dataset.  
 
-4. **Flowchart for ML Analyses**  
+3. **Flowchart for ML Analyses**  
    A guided flowchart that maps research questions to suggested ML methods, providing researchers with a clear pathway to address their objectives.  
 
-5. **Software Tool**  
+4. **Software Tool**  
    A publicly available tool to assist in dataset preparation by automating key aspects of the checklist validation process.  
 
 6. **Online App**  
@@ -42,10 +43,6 @@ To bridge this gap, we introduce **DAIMS**: Datasheets for AI and Medical Datase
 - **Documentation**: Enhances transparency and reproducibility through detailed data documentation.  
 
 ## Getting Started  
-
-1. **Access the Repository**  
-   Clone or download the DAIMS repository from GitHub:  
-   [https://github.com/PERSIMUNE/DAIMS](https://github.com/PERSIMUNE/DAIMS)  
 
 2. **Explore the Online App**  
    Use the online app for streamlined dataset evaluation:  
