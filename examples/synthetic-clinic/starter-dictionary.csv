@@ -1,0 +1,5 @@
+Variable Name,Role,Variable Type,Units,Categories or range,Description
+visit_id,identifier,categorical,unitless,v01 through v12,Synthetic visit identifier
+systolic_bp,feature,continuous,,80;200,Systolic blood pressure at the index visit
+visit_type,feature,categorical,unitless,routine;urgent,Visit category at intake
+follow_up,outcome,categorical,unitless,no;yes,Whether a follow-up occurred within 30 days

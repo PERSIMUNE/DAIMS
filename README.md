@@ -37,20 +37,14 @@ Use the [online app](https://daims-app.streamlit.app/) to run the automated chec
 - **Automation**: Saves time by automating key validation processes.  
 - **Documentation**: Enhances transparency and reproducibility through detailed data documentation.  
 
-## Getting Started  
+## Choose how to start
 
-1. **Explore the Online App**  
-   Use the online app for streamlined dataset evaluation:  
-   [https://daims-app.streamlit.app/](https://daims-app.streamlit.app/)  
-
-2. **Follow the Checklist**  
-   Refer to the provided checklist to ensure datasets meet the 24 common data standardization requirements.  
-
-3. **Document Your Dataset**  
-   Use the extended form and data dictionary table to comprehensively document your dataset.  
-
-4. **Use the Flowchart**  
-   Map your research questions to suggested ML methods for clearer analytical direction.  
+| What you want to do | Where to start |
+| --- | --- |
+| Check and document a sample dataset | [Try the worked example](examples/synthetic-clinic/) |
+| Check your own dataset | [Open the DAIMS app](https://daims-app.streamlit.app/) |
+| Document your dataset | [DAIMS datasheet template](DAIMS_DatasetName_DDMMYYYY.md) |
+| Review the full checklist and analysis flowchart | [DAIMS methods paper](https://arxiv.org/abs/2501.14094) |
 
 ## DAIMS in research
 

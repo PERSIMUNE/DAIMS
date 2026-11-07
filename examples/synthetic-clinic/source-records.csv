@@ -1,0 +1,3 @@
+visit_id,field,source_value,source_unit
+v04,visit_type,routine,unitless
+v08,systolic_bp,132,mmHg

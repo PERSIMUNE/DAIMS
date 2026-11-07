@@ -1,0 +1,13 @@
+visit_id,systolic_bp,visit_type,follow_up
+v01,118,routine,no
+v02,135,urgent,yes
+v03,126,routine,no
+v04,142,routine,yes
+v05,129,urgent,no
+v06,151,urgent,yes
+v07,123,routine,no
+v08,132,routine,yes
+v09,145,urgent,no
+v10,121,urgent,yes
+v11,137,routine,no
+v12,128,urgent,yes

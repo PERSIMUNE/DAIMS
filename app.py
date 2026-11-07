@@ -66,6 +66,8 @@ st.write("For instructions of use please view [Datasheets for AI and medical dat
 url_paper = "https://arxiv.org/abs/2501.14094"
 st.write("[Read here on how to format your data dictionary and apply the checklist](%s)" % url_paper) 
 
+st.markdown("[Try a sample dataset](https://github.com/PERSIMUNE/DAIMS/tree/main/examples/synthetic-clinic)")
+
 #upload widgets for data and dd
 st.subheader("Upload your Data file:")
 csv_file = st.file_uploader("Choose a .csv or .xlsx data file")
@@ -433,9 +435,9 @@ if flag_data == 1 and flag_dd == 1:
         #remove NaN
         conts_col_not_nan = conts[col][~conts[col].isna()]
         #get bad values
-        x = conts[col][~conts[col].apply(cont_checkcha)]
-        z = conts[col][conts[col].apply(check_minus)]
-        y = conts[col][conts[col].apply(countdot)]
+        x = conts_col_not_nan[~conts_col_not_nan.apply(cont_checkcha)]
+        z = conts_col_not_nan[conts_col_not_nan.apply(check_minus)]
+        y = conts_col_not_nan[conts_col_not_nan.apply(countdot)]
 
         if (len(x) > 0) and flag_cont == 0:
             flag_cont = 1
@@ -714,14 +716,9 @@ if flag_data == 1 and flag_dd == 1:
     sheet_row = np.full(4, "", dtype= 'object')
     sheet_row[2] = "Perfectly collinear variables are removed"
 
-    #get correlation matrix
     corr_matrix = data_float_comb.corr()
-
-    #zero values in diagonal
-    np.fill_diagonal(corr_matrix.values, 0)
-
-    #find correlated values
-    perf_corr = corr_matrix[corr_matrix > 0.999]
+    off_diagonal = ~np.eye(len(corr_matrix), dtype=bool)
+    perf_corr = corr_matrix.where((corr_matrix > 0.999) & off_diagonal)
 
     perf_corr = perf_corr.dropna(how = 'all', axis = 0)
     perf_corr = perf_corr.dropna(how = 'all', axis = 1)
@@ -835,21 +832,17 @@ else:
 st.subheader("Download Checklist (.xlsx)")
 if flag_data == 1 and flag_dd == 1:
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-   
         sheet_out.to_excel(writer)
-        writer.close()
-        output_name = "check_list_" + ".".join(csv_file.name.split(".")[:-1]) + ".xlsx"
-        #download_button = st.button("Download")
-        #if download_button:
-        #    sheet_out.to_excel(output_name)
+
+    buffer.seek(0)
+    output_name = "check_list_" + ".".join(csv_file.name.split(".")[:-1]) + ".xlsx"
+    st.download_button(
+        label="Download",
+        data=buffer,
+        file_name=output_name,
+        mime="application/vnd.ms-excel"
+    )
         
-        st.download_button(
-            label="Download",
-            data=buffer,
-            file_name=output_name,
-            mime="application/vnd.ms-excel"
-        )
-            
 else:
     st.subheader("Upload data and data dictionary to begin.")
 
