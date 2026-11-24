@@ -4,7 +4,7 @@
   <img src="https://github.com/PERSIMUNE/DAIMS/blob/main/DAIMSlogo.svg" alt="DAIMS Logo" width="300">
 </p>  
 
-[![Google Scholar citations: 11](https://img.shields.io/badge/Google%20Scholar%20citations-11-3986bc)](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en) [![Streamlit App](https://img.shields.io/badge/Streamlit-App-brightgreen)](https://daims-app.streamlit.app/) [![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-DAIMS-ffd21e)](https://huggingface.co/spaces/ramtinzm/DAIMS) [![Kaggle Notebook](https://img.shields.io/badge/Kaggle-Run%20notebook-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/remyz5/daims-dataset-checks)
+![README views](https://komarev.com/ghpvc/?username=PERSIMUNE.DAIMS&label=Views&color=3986bc&style=flat) [![Google Scholar citations: 11](https://img.shields.io/badge/Google%20Scholar%20citations-11-3986bc)](https://scholar.google.com/scholar?cites=8674731473406692984&hl=en) [![Streamlit App](https://img.shields.io/badge/Streamlit-App-brightgreen)](https://daims-app.streamlit.app/) [![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-DAIMS-ffd21e)](https://huggingface.co/spaces/ramtinzm/DAIMS) [![Kaggle Notebook](https://img.shields.io/badge/Kaggle-Run%20notebook-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/remyz5/daims-dataset-checks)
 
 **DAIMS (Datasheets for AI and Medical Datasets)** helps researchers check and document datasets before machine learning analysis. It combines a 24-point checklist, automated data checks, a dataset documentation form, a data dictionary template, and a flowchart for choosing analysis methods.
 
